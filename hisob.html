@@ -8,45 +8,32 @@
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { margin: 0; padding: 0; background-color: #f0f2f5; color: #333; padding-bottom: 70px; }
         header { background: #1e3a8a; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        
-        /* Navigation Tabs */
         .nav-tabs { display: flex; overflow-x: auto; background: #fff; border-bottom: 1px solid #ddd; position: sticky; top: 53px; z-index: 99; }
         .tab-btn { flex: 1; padding: 12px 8px; border: none; background: none; font-size: 14px; font-weight: bold; color: #555; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; }
         .tab-btn.active { color: #1e3a8a; border-bottom: 3px solid #1e3a8a; background: #eef2ff; }
-        
         .container { padding: 15px; max-width: 600px; margin: auto; }
         .section { display: none; }
         .section.active { display: block; }
-        
-        /* Cards & Forms */
         .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 15px; }
         h3 { margin-top: 0; color: #1e3a8a; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
         label { display: block; margin-top: 10px; font-weight: 600; font-size: 14px; }
         input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
         button.submit-btn { width: 100%; padding: 12px; margin-top: 15px; background: #16a34a; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        button.submit-btn:active { background: #15803d; }
-        
-        /* Report Boxes */
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; text-align: center; }
         .sum-box { background: #f8fafc; padding: 10px 5px; border-radius: 8px; border: 1px solid #e2e8f0; }
         .sum-box span { display: block; font-size: 12px; color: #64748b; }
         .sum-box strong { display: block; font-size: 15px; margin-top: 4px; color: #0f172a; }
-        
         .profit-box { background: #dcfce7; border: 1px solid #86efac; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px; }
         .profit-box.loss { background: #fee2e2; border-color: #fca5a5; }
         .profit-box h2 { margin: 5px 0 0 0; font-size: 24px; }
-
-        /* History List */
         .entry-item { background: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 5px solid #ccc; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .entry-sale { border-left-color: #16a34a; }
         .entry-purchase { border-left-color: #ea580c; }
         .entry-expense { border-left-color: #dc2626; }
         .entry-udhari { border-left-color: #7c3aed; }
-        
         .badge { display: inline-block; padding: 2px 6px; font-size: 11px; border-radius: 4px; font-weight: bold; background: #e2e8f0; color: #334155; }
         .del-btn { background: #fee2e2; color: #dc2626; border: none; padding: 6px 10px; border-radius: 5px; font-size: 12px; cursor: pointer; }
         .settle-btn { background: #dcfce7; color: #16a34a; border: 1px solid #86efac; padding: 5px 8px; border-radius: 5px; font-size: 12px; font-weight: bold; cursor: pointer; margin-right: 5px; }
-        
         .export-btn { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
@@ -55,87 +42,70 @@
 <header>📊 माझा बिझनेस हिशोब</header>
 
 <div class="nav-tabs">
-    <button class="tab-btn active" onclick="openTab('sale')">+ विक्री (Sale)</button>
-    <button class="tab-btn" onclick="openTab('purchase')">+ खरेदी (Purchase)</button>
-    <button class="tab-btn" onclick="openTab('expense')">+ खर्च (Expense)</button>
-    <button class="tab-btn" onclick="openTab('udhari')">📒 उधारी (Credit)</button>
-    <button class="tab-btn" onclick="openTab('report')">📈 रिपोर्ट (Report)</button>
+    <button type="button" class="tab-btn active" onclick="openTab('sale', this)">+ विक्री (Sale)</button>
+    <button type="button" class="tab-btn" onclick="openTab('purchase', this)">+ खरेदी (Purchase)</button>
+    <button type="button" class="tab-btn" onclick="openTab('expense', this)">+ खर्च (Expense)</button>
+    <button type="button" class="tab-btn" onclick="openTab('udhari', this)">📒 उधारी (Credit)</button>
+    <button type="button" class="tab-btn" onclick="openTab('report', this)">📈 रिपोर्ट (Report)</button>
 </div>
 
 <div class="container">
-
-    <!-- 1. SALE SECTION -->
     <div id="sale" class="section active">
         <div class="card">
             <h3>🟢 नवीन विक्री (Sale) नोंदवा</h3>
             <label>तारीख (Date):</label>
             <input type="date" id="sale-date">
-            
             <label>तपशील / ग्राहकाचे नाव:</label>
             <input type="text" id="sale-desc" placeholder="उदा. काउंटर सेल / राहुल शर्मा">
-            
             <label>रक्कम (₹):</label>
             <input type="number" id="sale-amount" placeholder="0">
-            
-            <label>पेमेंट प्रकार (Payment Mode):</label>
+            <label>पेमेंट प्रकार:</label>
             <select id="sale-mode">
                 <option value="Cash">💵 Cash (रोख)</option>
                 <option value="Online">📱 Online (UPI / Bank)</option>
                 <option value="Udhari">⏳ उधारी (Credit - येणे बाकी)</option>
             </select>
-            
-            <button class="submit-btn" onclick="addEntry('sale')">विक्री सेव्ह करा</button>
+            <button type="button" class="submit-btn" onclick="addEntry('sale')">विक्री सेव्ह करा</button>
         </div>
     </div>
 
-    <!-- 2. PURCHASE SECTION -->
     <div id="purchase" class="section">
         <div class="card">
             <h3>🟠 नवीन खरेदी (Purchase) नोंदवा</h3>
             <label>तारीख (Date):</label>
             <input type="date" id="purchase-date">
-            
             <label>मालाचा तपशील / सप्लायरचे नाव:</label>
-            <input type="text" id="purchase-desc" placeholder="उदा. किराणा माल / होलसेल व्यापारी">
-            
+            <input type="text" id="purchase-desc" placeholder="उदा. माल खरेदी / होलसेल व्यापारी">
             <label>रक्कम (₹):</label>
             <input type="number" id="purchase-amount" placeholder="0">
-            
-            <label>पेमेंट प्रकार (Payment Mode):</label>
+            <label>पेमेंट प्रकार:</label>
             <select id="purchase-mode">
                 <option value="Cash">💵 Cash (रोख दिले)</option>
                 <option value="Online">📱 Online (UPI / Bank दिले)</option>
                 <option value="Udhari">⏳ उधारी (Credit - देणे बाकी)</option>
             </select>
-            
-            <button class="submit-btn" style="background:#ea580c;" onclick="addEntry('purchase')">खरेदी सेव्ह करा</button>
+            <button type="button" class="submit-btn" style="background:#ea580c;" onclick="addEntry('purchase')">खरेदी सेव्ह करा</button>
         </div>
     </div>
 
-    <!-- 3. EXPENSE SECTION -->
     <div id="expense" class="section">
         <div class="card">
             <h3>🔴 दुकान खर्च (Expense) नोंदवा</h3>
             <label>तारीख (Date):</label>
             <input type="date" id="expense-date">
-            
             <label>खर्चाचा तपशील:</label>
             <input type="text" id="expense-desc" placeholder="उदा. चहा-पाणी, लाईट बिल, भाडे, हमाली">
-            
             <label>रक्कम (₹):</label>
             <input type="number" id="expense-amount" placeholder="0">
-            
-            <label>पेमेंट प्रकार (Payment Mode):</label>
+            <label>पेमेंट प्रकार:</label>
             <select id="expense-mode">
                 <option value="Cash">💵 Cash (रोख)</option>
                 <option value="Online">📱 Online (UPI / Bank)</option>
             </select>
-            
-            <button class="submit-btn" style="background:#dc2626;" onclick="addEntry('expense')">खर्च सेव्ह करा</button>
+            <button type="button" class="submit-btn" style="background:#dc2626;" onclick="addEntry('expense')">खर्च सेव्ह करा</button>
         </div>
     </div>
 
-    <!-- 4. UDHARI (CREDIT) SECTION -->
     <div id="udhari" class="section">
         <div class="card">
             <h3>📒 उधारी खाते (Credit Ledger)</h3>
@@ -149,12 +119,10 @@
                     <strong id="total-payable" style="color:#dc2626;">₹ 0</strong>
                 </div>
             </div>
-            <p style="font-size:12px; color:#666;">* टीप: विक्री किंवा खरेदी करताना 'उधारी' निवडल्यास ती नोंद आपोआप येथे दिसेल. पैसे जमा झाल्यावर 'जमा करा' वर क्लिक करा.</p>
         </div>
         <div id="udhari-list"></div>
     </div>
 
-    <!-- 5. FINAL REPORT SECTION -->
     <div id="report" class="section">
         <div class="card">
             <h3>📈 अंतिम अहवाल (Final Report)</h3>
@@ -168,16 +136,25 @@
             <input type="date" id="custom-report-date" style="display:none; margin-top:10px;" onchange="renderReport()">
         </div>
 
-        <!-- Net Profit / Loss -->
         <div id="profit-card" class="profit-box">
             <span id="profit-label" style="font-weight:bold;">निव्वळ नफा (Net Profit)</span>
             <h2 id="net-profit">₹ 0</h2>
-            <small id="cash-in-hand" style="display:block; margin-top:5px; color:#333;">हातातील शिल्लक (Cash Balance): ₹ 0 | Online: ₹ 0</small>
+            <small id="cash-in-hand" style="display:block; margin-top:5px; color:#333;">गल्ल्यातील Cash: ₹ 0 | Online: ₹ 0</small>
         </div>
 
-        <!-- Sale Breakdown -->
         <div class="card">
             <h4 style="margin:0 0 10px 0; color:#16a34a;">🟢 एकूण विक्री (Total Sale)</h4>
             <div class="summary-grid">
                 <div class="sum-box"><span>💵 Cash</span><strong id="rep-sale-cash">₹ 0</strong></div>
                 <div class="sum-box"><span>📱 Online</span><strong id="rep-sale-online">₹ 0</strong></div>
+                <div class="sum-box" style="background:#dcfce7;"><span>एकूण (Total)</span><strong id="rep-sale-total">₹ 0</strong></div>
+            </div>
+
+            <h4 style="margin:15px 0 10px 0; color:#ea580c;">🟠 एकूण खरेदी (Total Purchase)</h4>
+            <div class="summary-grid">
+                <div class="sum-box"><span>💵 Cash</span><strong id="rep-pur-cash">₹ 0</strong></div>
+                <div class="sum-box"><span>📱 Online</span><strong id="rep-pur-online">₹ 0</strong></div>
+                <div class="sum-box" style="background:#ffedd5;"><span>एकूण (Total)</span><strong id="rep-pur-total">₹ 0</strong></div>
+            </div>
+
+            <h4 style="margin:15px 0 10px 0; color:#dc2626;">🔴 एकूण खर्च (Total Expense)</h4>
